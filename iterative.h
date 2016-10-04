@@ -187,7 +187,7 @@ static matrix_t *jacobi_solve(matrix_t *A, matrix_t* b, double absolute_error)
         matrix_set_at(x1, i, 0, 0);
     }
 
-    size_t flag;
+    size_t flag = 0;
     while (flag != x1->rows) {
         matrix_t *x0 = matrix_copy(x1);
         flag = 0;
@@ -229,7 +229,7 @@ static matrix_t *gauss_seidel_solve(matrix_t *A, matrix_t* b, double absolute_er
         matrix_set_at(x1, i, 0, 0);
     }
 
-    size_t flag;
+    size_t flag = 0;
     while (flag != x1->rows) {
         matrix_t *x0 = matrix_copy(x1);
         flag = 0;
