@@ -35,5 +35,6 @@
 #include "matrix_norms.h"
 #include "matrix_angle.h"
 #include "matrix_properties.h"
+#include "matrix_inverse.h"
 
 #endif
