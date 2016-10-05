@@ -49,7 +49,7 @@ static matrix_t *cholesky_factor(matrix_t *mat)
             current -= pow(matrix_get_at(factor, k, i), 2);
         }
 
-        if (current < 0) {
+        if (current <= 0) {
             matrix_free(factor);
             return NULL;
         }
