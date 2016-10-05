@@ -216,45 +216,60 @@ static matrix_t *jacobi_solve(matrix_t *A, matrix_t* b, double absolute_error)
 }
 
 /**
- *  Resolve o sistema Ax = b pelo método iterativo de Gauss-Seidel.
- *  @return O vetor x.
- *  @author Márcio Medeiros
+ *  Resolve o sistema Ax = b por Sobre-Relaxação Sucessiva (SOR)
  */
-static matrix_t *gauss_seidel_solve(matrix_t *A, matrix_t* b, double absolute_error)
+static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_error)
 {
-    matrix_t *x1 = matrix_new(b->rows, 1);
+    matrix_t *x = matrix_new(b->rows, 1);
 
     size_t i;
-    for (i = 0; i < x1->rows; ++i) {
-        matrix_set_at(x1, i, 0, 0);
+    for (i = 0; i < x->rows; ++i) {
+        matrix_set_at(x, i, 0, 0);
     }
 
     size_t flag = 0;
-    while (flag != x1->rows) {
-        matrix_t *x0 = matrix_copy(x1);
+    while (flag != x->rows) {
+        matrix_t *prevx = matrix_copy(x);
         flag = 0;
 
         for (i = 0; i < A->rows; ++i) {
             double sum = 0;
+            double outer;
             size_t j;
             for (j = 0; j < A->columns; ++j) {
                 if (i == j) {
                     sum += matrix_get_at(b, i, 0);
-                } else {
-                    sum -= matrix_get_at(A, i, j)*matrix_get_at(x1, j, 0);
+                } else if (i > j) {
+                    sum -= matrix_get_at(A, i, j) * matrix_get_at(x, j, 0);
+                } else if (i < j) {
+                    sum -= matrix_get_at(A, i, j) * matrix_get_at(prevx, j, 0);
                 }
             }
-            sum /= matrix_get_at(A, i, i);
-            matrix_set_at(x1, i, 0, sum);
+            outer = (1 - w) * matrix_get_at(prevx, i, 0) + (w / matrix_get_at(A, i, i));
+            matrix_set_at(x, i, 0, outer * sum);
 
-            if (fabs(matrix_get_at(x1, i, 0) - matrix_get_at(x0, i, 0)) < absolute_error) {
+            if (fabs(matrix_get_at(x, i, 0) - matrix_get_at(prevx, i, 0)) < absolute_error) {
+                /**
+                 *  Resolve o sistema Ax = b por Sobre-Relaxação Sucessiva (SOR)
+                 */
                 flag++;
             }
         }
-        matrix_free(x0); 
+        matrix_free(prevx); 
     }
 
-    return x1;
+    return x;
 }
+
+/**
+ *  Resolve o sistema Ax = b pelo método iterativo de Gauss-Seidel.
+ *  @return O vetor x.
+ *  @author Márcio Medeiros
+ */
+static matrix_t *gauss_seidel_solve(matrix_t *A, matrix_t *b, double absolute_error)
+{
+    return sor_solve(A, b, 1, absolute_error);
+}
+
 
 #endif

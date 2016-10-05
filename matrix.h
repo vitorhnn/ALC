@@ -72,6 +72,9 @@ static void matrix_set_at(matrix_t *mat, size_t row, size_t column, double value
     assert(row < mat->rows);
     assert(column < mat->columns);
 
+    assert(!isnan(value));
+    assert(isfinite(value));
+
     pos = (row * mat->columns) + column;
 
     mat->elements[pos] = value;

@@ -33,7 +33,7 @@
 static void troca_linha(matrix_t *mat, size_t l, size_t i)
 {
     double aux;
-    int c;
+    size_t c;
     for (c = 0; c < mat->columns; ++c) {
         aux = matrix_get_at(mat, l, c);
         matrix_set_at(mat, l, c, matrix_get_at(mat, i, c));
