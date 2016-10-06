@@ -240,6 +240,7 @@ static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_e
     memset(x->elements, 0, sizeof(double) * x->rows);
 
     while (done != x->rows) {
+        iterations++;
         done = 0;
         matrix_t *prevx = matrix_copy(x);
         size_t i;
@@ -266,55 +267,10 @@ static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_e
         
 
         matrix_free(prevx);
-        iterations++;
     }
 
     return x;
 }
-
-/**
- *  Resolve o sistema Ax = b por Sobre-Relaxação Sucessiva (SOR)
- *
-static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_error)
-{
-    matrix_t *x = matrix_new(b->rows, 1);
-
-    size_t i;
-    for (i = 0; i < x->rows; ++i) {
-        matrix_set_at(x, i, 0, 0);
-    }
-
-    size_t flag = 0;
-    while (flag != x->rows) {
-        matrix_t *prevx = matrix_copy(x);
-        flag = 0;
-
-        for (i = 0; i < A->rows; ++i) {
-            double sum = 0;
-            double outer;
-            size_t j;
-            for (j = 0; j < A->columns; ++j) {
-                if (i == j) {
-                    sum += matrix_get_at(b, i, 0);
-                } else if (i > j) {
-                    sum -= matrix_get_at(A, i, j) * matrix_get_at(x, j, 0);
-                } else if (i < j) {
-                    sum -= matrix_get_at(A, i, j) * matrix_get_at(prevx, j, 0);
-                }
-            }
-            outer = (1 - w) * matrix_get_at(prevx, i, 0) + (w / matrix_get_at(A, i, i));
-            matrix_set_at(x, i, 0, outer * sum);
-
-            if (fabs(matrix_get_at(x, i, 0) - matrix_get_at(prevx, i, 0)) < absolute_error) {
-                flag++;
-            }
-        }
-        matrix_free(prevx); 
-    }
-
-    return x;
-}
-*/
 
 /**
  *  Resolve o sistema Ax = b pelo método iterativo de Gauss-Seidel.
