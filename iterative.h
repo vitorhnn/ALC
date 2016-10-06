@@ -235,12 +235,12 @@ static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_e
     matrix_t *x = matrix_new(b->rows, 1);
     size_t done = 0;
 
-    iterations = 0;
+    __g_iterations = 0;
 
     memset(x->elements, 0, sizeof(double) * x->rows);
 
     while (done != x->rows) {
-        iterations++;
+        __g_iterations++;
         done = 0;
         matrix_t *prevx = matrix_copy(x);
         size_t i;
