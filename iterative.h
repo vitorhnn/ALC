@@ -30,7 +30,16 @@
 #include "matrix.h"
 #include "matrix_norms.h"
 
-static size_t iterations;
+static size_t __g_iterations;
+
+/**
+ *  Informa a quantidade de iterações usadas no último método iterativo chamado.
+ *  @return As iterações
+ */
+static size_t get_iterations(void)
+{
+    return __g_iterations;
+}
 
 /**
  *  Confere o critério das linhas em mat
@@ -188,7 +197,9 @@ static matrix_t *jacobi_solve(matrix_t *A, matrix_t* b, double absolute_error)
     }
 
     size_t flag = 0;
+    __g_iterations = 0;
     while (flag != x1->rows) {
+        __g_iterations++;
         matrix_t *x0 = matrix_copy(x1);
         flag = 0;
 
@@ -215,6 +226,10 @@ static matrix_t *jacobi_solve(matrix_t *A, matrix_t* b, double absolute_error)
     return x1;
 }
 
+/**
+ *  Resolve o sistema Ax = b pelo método iterativo de Sobre-Relaxação Sucessiva.
+ *  @return O vetor x.
+ */
 static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_error)
 {
     matrix_t *x = matrix_new(b->rows, 1);
