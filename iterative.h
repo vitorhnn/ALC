@@ -30,6 +30,8 @@
 #include "matrix.h"
 #include "matrix_norms.h"
 
+static size_t iterations;
+
 /**
  *  Confere o critério das linhas em mat
  *  @author Andrei Parente
@@ -79,8 +81,7 @@ static int convergence_columns_check(matrix_t *mat)
         }
         if (matrix_get_at(mat, j, j) < 0 && sum >= matrix_get_at(mat, j, j) * -1) {
             return 0;
-        }
-        else if (sum >= matrix_get_at(mat, j, j)) {
+        } else if (sum >= matrix_get_at(mat, j, j)) {
             return 0;
         }
     }
@@ -121,8 +122,7 @@ static int convergence_sassenfeld_check(matrix_t *mat)
                 free(beta);
                 return 0;
             }
-        }
-        else {
+        } else {
             beta[i] /= matrix_get_at(mat, i, i);
             if (beta[i] >= 1) {
                 free(beta);
@@ -215,9 +215,51 @@ static matrix_t *jacobi_solve(matrix_t *A, matrix_t* b, double absolute_error)
     return x1;
 }
 
+static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_error)
+{
+    matrix_t *x = matrix_new(b->rows, 1);
+    size_t done = 0;
+
+    iterations = 0;
+
+    memset(x->elements, 0, sizeof(double) * x->rows);
+
+    while (done != x->rows) {
+        done = 0;
+        matrix_t *prevx = matrix_copy(x);
+        size_t i;
+        for (i = 0; i < x->rows; ++i) {
+            double xhat = matrix_get_at(b, i, 0);
+            double delta;
+            size_t j;
+
+            for (j = 0; j < x->rows; ++j) {
+                if (i != j) {
+                    xhat -= matrix_get_at(A, i, j) * matrix_get_at(x, j, 0);
+                }
+            }
+
+            xhat /= matrix_get_at(A, i, i);
+            delta = xhat - matrix_get_at(x, i, 0);
+
+            matrix_set_at(x, i, 0, matrix_get_at(x, i, 0) + w * delta);
+
+            if (fabs(matrix_get_at(x, i, 0) - matrix_get_at(prevx, i, 0)) < absolute_error) {
+                done++;
+            }
+        }
+        
+
+        matrix_free(prevx);
+        iterations++;
+    }
+
+    return x;
+}
+
 /**
  *  Resolve o sistema Ax = b por Sobre-Relaxação Sucessiva (SOR)
- */
+ *
 static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_error)
 {
     matrix_t *x = matrix_new(b->rows, 1);
@@ -249,9 +291,6 @@ static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_e
             matrix_set_at(x, i, 0, outer * sum);
 
             if (fabs(matrix_get_at(x, i, 0) - matrix_get_at(prevx, i, 0)) < absolute_error) {
-                /**
-                 *  Resolve o sistema Ax = b por Sobre-Relaxação Sucessiva (SOR)
-                 */
                 flag++;
             }
         }
@@ -260,6 +299,7 @@ static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_e
 
     return x;
 }
+*/
 
 /**
  *  Resolve o sistema Ax = b pelo método iterativo de Gauss-Seidel.
