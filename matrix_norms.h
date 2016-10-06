@@ -107,4 +107,90 @@ static double column_norm(matrix_t *mat)
     return norm;
 }
 
+/**
+ *  NORMA 1: Vetor
+ *  Soma das magnetudes
+ *
+ *  @param vector, Vetor numa matriz linha
+ *  @return norma magnetude
+ *
+ *  @author Pedro da Luz
+ */
+static double vector_norm1(matrix_t* vector)
+{
+    double accumulator = 0;
+
+    size_t i;
+
+    assert(vector->rows == 1);
+
+    for(i = 0; i < vector->columns; i++)
+    {
+        accumulator += abs(matrix_get_at(vector, 0, i));
+    }
+
+    return accumulator;
+}
+
+/**
+ *  NORMA 2: Vetor
+ *  Norma Euclideana
+ *
+ *  @param vector, Vetor numa matriz linha
+ *  @return norma euclidiana
+ *
+ *  @author Pedro da Luz
+ */
+static double vector_norm2(matrix_t* vector)
+{
+    double accumulator = 0;
+
+    size_t i;
+
+    assert(vector->rows == 1);
+
+    for(i = 0; i < vector->columns; i++)
+    {
+        accumulator += pow(matrix_get_at(vector, 0, i), 2);
+    }
+
+    return sqrt(accumulator);
+}
+
+/**
+ *  NORMA INFINITO: Vetor
+ *  Norma máxima de magnitude
+ *
+ *  @param vector, Vetor numa matriz linha
+ *  @return norma infinito
+ *
+ *  @author Pedro da Luz
+ */
+static double vector_infinitNorm(matrix_t* vector)
+{
+    double max = 0;
+
+    size_t i;
+
+    assert(vector->rows == 1);
+
+    for(i = 0; i < vector->columns; i++)
+    {
+        double element;
+        element = matrix_get_at(vector, 0, i);
+
+        if(element < 0)
+        {
+            element = abs(element);
+        }
+
+        if(element > max)
+        {
+            max = element;
+        }
+    }
+
+    return max;
+}
+
 #endif
