@@ -27,6 +27,7 @@
 #define LU_H
 
 #include "matrix.h"
+#include "basic.h"
 
 /**
  *  Decompõe a matriz A em L, triangular inferior, e U, triangular superior.
