@@ -166,7 +166,7 @@ static double vector_norm2(matrix_t* vector)
  *
  *  @author Pedro da Luz
  */
-static double vector_infinitNorm(matrix_t* vector)
+static double vector_infinityNorm(matrix_t* vector)
 {
     double max = 0;
 
