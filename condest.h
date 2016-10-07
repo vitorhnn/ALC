@@ -44,17 +44,17 @@ static double condest(matrix_t *A, unsigned tests)
     unsigned k;
     for (k = 0; k < tests; k++) {
         size_t i;
-    	for (i = 0; i < b->rows; i++) {
-			double element = rand() / 1000000000.0;
-			matrix_set_at(b, i,0,element);
-		}
+        for (i = 0; i < b->rows; i++) {
+            double element = rand() / 1000000000.0;
+            matrix_set_at(b, i,0,element);
+        }
 
-    	x = lu_solve(A, b);
-	    	
-    	current = column_norm(x) / column_norm(b);
+        x = lu_solve(A, b);
+            
+        current = column_norm(x) / column_norm(b);
 
-    	if (current > biggest) {
-    		biggest = current;
+        if (current > biggest) {
+            biggest = current;
         }
         
         matrix_free(x);
