@@ -36,5 +36,6 @@
 #include "matrix_angle.h"
 #include "matrix_properties.h"
 #include "matrix_inverse.h"
+#include "condest.h"
 
 #endif
