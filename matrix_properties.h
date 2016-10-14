@@ -107,4 +107,31 @@ static int positive_definite_check(matrix_t *mat)
     return 1;
 }
 
+/**
+ *  Verifica se a matriz é estritamente diagonal dominante
+ *  @autor Pedro da Luz
+ */
+static int strictly_dominant_diagonal_check(matrix_t* A)
+{
+    matrix_t* singleRow;
+    singleRow = matrix_new(1, A->columns);
+
+    size_t i, j;
+    for(i = 0; i < A->rows; i++)
+    {
+        for(j = 0; j < A->columns; j++)
+            matrix_set_at(singleRow, 0, j, matrix_get_at(A, i, j));
+
+        double norm = vector_norm1(singleRow);
+
+        for(j = 0; j < A->columns; j++)
+        {
+            if(abs(matrix_get_at(A, i, j)) < norm)
+                return 0;
+        }
+    }
+    matrix_free(singleRow);
+    return 1;
+}
+
 #endif
