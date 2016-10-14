@@ -126,7 +126,7 @@ static double vector_norm1(matrix_t* vector)
 
     for(i = 0; i < vector->columns; i++)
     {
-        accumulator += abs(matrix_get_at(vector, 0, i));
+        accumulator += fabs(matrix_get_at(vector, 0, i));
     }
 
     return accumulator;
@@ -181,7 +181,7 @@ static double vector_infinityNorm(matrix_t* vector)
 
         if(element < 0)
         {
-            element = abs(element);
+            element = fabs(element);
         }
 
         if(element > max)

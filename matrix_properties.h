@@ -126,7 +126,7 @@ static int strictly_dominant_diagonal_check(matrix_t* A)
 
         for(j = 0; j < A->columns; j++)
         {
-            if(abs(matrix_get_at(A, i, j)) < norm)
+            if(fabs(matrix_get_at(A, i, j)) < norm)
                 return 0;
         }
     }
