@@ -93,4 +93,73 @@ static double row_column_angle(matrix_t *mat, size_t row, size_t column)
     return acos(angle);
 }
 
+/**
+ *  Calcula a distância entre dois vetores
+ *
+ *  @param u e v, vetor em matriz linha
+ *
+ *  @author Pedro da Luz
+ */
+static double vector_distance_vector(matrix_t* u, matrix_t* v)
+{
+    double accumulator;
+
+    size_t i;
+
+    assert(u->rows == 1);
+    assert(v->rows == 1);
+    assert(u->columns == v->columns);
+
+    for(i = 0; i < u->columns; i++)
+        accumulator += pow(matrix_get_at(v, 0, i) - matrix_get_at(u, 0, i), 2);
+
+    return sqrt(accumulator);
+}
+
+/**
+ *  Calcula o ângulo interno entre dois vetores
+ *
+ *  @param u e v, vetores em matriz linha
+ *  @return angle, valor do ângulo em graus
+ *
+ *  @author Pedro da Luz
+ */
+static double vector_angle_vector(matrix_t* u, matrix_t* v)
+{
+    double angle;
+
+    double accumulator = 0;
+
+    assert(u->rows == 1);
+    assert(v->rows == 1);
+    assert(u->columns == v->columns);
+
+    size_t i;
+    for(i = 0; i < u->columns; i++)
+        accumulator += matrix_get_at(u, 0, i) * matrix_get_at(v, 0, i);
+    
+    angle = acos(accumulator / (vector_norm2(u) * vector_norm2(v))); // Arco-Cosseno em Radianos
+
+    angle = angle * (180/M_PI); // Converte para graus
+
+    return angle;
+}
+
+/**
+ *  Calcula o produto interno entre dois vetores
+ *
+ *  @param u e v, vetores em matriz linha
+ *  @return innner_product_space, produto interno
+ *
+ *  @author Pedro da Luz
+ */
+static double vector_innerProductSpace(matrix_t* u, matrix_t* v)
+{
+    double innner_product_space;
+
+    innner_product_space = (vector_norm2(u) * vector_norm2(v)) * cos(vector_angle_vector(u, v) * (M_PI/180));
+    
+    return innner_product_space;    
+}
+
 #endif
