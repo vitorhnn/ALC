@@ -134,4 +134,30 @@ static int strictly_dominant_diagonal_check(matrix_t* A)
     return 1;
 }
 
+/**
+ *  Verifica se os vetores da matriz são lineramente independentes
+ *  Pelo método da determinante em matrizes de ordem NxN
+ *
+ *  @param A, matriz composta por vetores linha
+ *
+ *  @author Pedro da Luz
+ */
+static int vector_lineary_independence_det_check(matrix_t* A)
+{
+    if(vandermonde_check(A) == 1)
+    {
+        if(vandermonde_determinant(A) != 0)
+            return 1;
+        else
+            return 0;
+    }
+    else
+    {
+        if(matrix_get_determinant(A) != 0)
+            return 1;
+        else
+            return 0;
+    }
+}
+
 #endif
