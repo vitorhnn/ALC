@@ -32,7 +32,7 @@
  *  Resolve o sistema Ax = b por substituição para frente.
  *  @return O vetor x.
  */
-static matrix_t *forwards_substitution(matrix_t *A, matrix_t *b)
+static matrix_t *forwards_substitution(const matrix_t * restrict A, const matrix_t * restrict b)
 {
     size_t i;
     matrix_t *x = matrix_new(b->rows, 1);
@@ -55,7 +55,7 @@ static matrix_t *forwards_substitution(matrix_t *A, matrix_t *b)
  *  Resolve o sistema Ax = b por substituição para trás
  *  @return O vetor x.
  */
-static matrix_t *backwards_substitution(matrix_t *A, matrix_t *b)
+static matrix_t *backwards_substitution(const matrix_t * restrict A, const matrix_t * restrict b)
 {
     size_t i;
     matrix_t *x = matrix_new(b->rows, 1);

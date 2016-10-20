@@ -27,12 +27,15 @@
 #define MATRIX_PROPERTIES_H
 
 #include "matrix.h"
+#include "cholesky.h"
+#include "matrix_norms.h"
+#include "vandermonde.h"
 
 /**
  *  Confere se mat é tridiagonal.
  *  @author Andrei Parente
  */
-static int tridiagonal_check(matrix_t* mat)
+static int tridiagonal_check(const matrix_t *mat)
 {
     size_t i;
     for (i = 0; i < mat->rows; ++i) {
@@ -55,7 +58,7 @@ static int tridiagonal_check(matrix_t* mat)
  *  Confere se mat é ortogonal.
  *  @author Andrei Parente
  */
-static int orthogonal_check(matrix_t *mat)
+static int orthogonal_check(const matrix_t *mat)
 {
     matrix_t *id = matrix_new(mat->rows, mat->columns);
     id = matrix_load_identity(id);
@@ -80,7 +83,7 @@ static int orthogonal_check(matrix_t *mat)
  *  Confere se mat é simétrica.
  *  @author Andrei Parente
  */
-static int symmetric_check(matrix_t *mat)
+static int symmetric_check(const matrix_t *mat)
 {
     matrix_t *transposed = matrix_transpose(mat);
 
@@ -95,7 +98,7 @@ static int symmetric_check(matrix_t *mat)
  *  Confere se mat é positiva definida.
  *  @author Andrei Parente
  */
-static int positive_definite_check(matrix_t *mat)
+static int positive_definite_check(const matrix_t *mat)
 {
     matrix_t *factor = cholesky_factor(mat);
 
@@ -111,7 +114,7 @@ static int positive_definite_check(matrix_t *mat)
  *  Verifica se a matriz é estritamente diagonal dominante
  *  @autor Pedro da Luz
  */
-static int strictly_dominant_diagonal_check(matrix_t* A)
+static int strictly_dominant_diagonal_check(const matrix_t *A)
 {
     matrix_t* singleRow;
     singleRow = matrix_new(1, A->columns);
@@ -142,7 +145,7 @@ static int strictly_dominant_diagonal_check(matrix_t* A)
  *
  *  @author Pedro da Luz
  */
-static int vector_lineary_independence_det_check(matrix_t* A)
+static int vector_lineary_independence_det_check(const matrix_t* A)
 {
     if(vandermonde_check(A) == 1)
     {

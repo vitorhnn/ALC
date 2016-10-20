@@ -88,7 +88,7 @@ static void matrix_set_at(matrix_t *mat, size_t row, size_t column, double value
  *  @param column A coluna do element a ser acessado.
  *  @return O elemento nas posições informadas
  */
-static double matrix_get_at(matrix_t *mat, size_t row, size_t column)
+static double matrix_get_at(const matrix_t *mat, size_t row, size_t column)
 {
     size_t pos;
 
@@ -168,7 +168,7 @@ static void matrix_free(matrix_t *mat)
  *  @param mat A matriz a ser copiada
  *  @return Uma cópia funda de mat
  */
-static matrix_t *matrix_copy(matrix_t *mat)
+static matrix_t *matrix_copy(const matrix_t *mat)
 {
     matrix_t *new_mat = 
             mat->transposed ? matrix_new(mat->columns, mat->rows) : 
@@ -197,13 +197,14 @@ static matrix_t *matrix_copy(matrix_t *mat)
  *  @param mat A matriz a ser transposta
  *  @return mat transposta
  */
-static matrix_t *matrix_transpose(matrix_t *mat)
+static matrix_t *matrix_transpose(const matrix_t *mat)
 {
     matrix_t *new_mat;
+    matrix_t *evil = (matrix_t *) mat; /* This is technically a breach of const-correctness, but all changes get reverted */
 
-    mat->transposed = 1;
+    evil->transposed = 1;
     new_mat = matrix_copy(mat);
-    mat->transposed = 0;
+    evil->transposed = 0;
 
     return new_mat;
 }
@@ -216,7 +217,7 @@ static int doublecmp(double a, double b)
     return fabs(a - b) < EPSILON;
 }
 
-static int matrix_cmp(matrix_t *a, matrix_t *b)
+static int matrix_cmp(const matrix_t * restrict a, const matrix_t * restrict b)
 {
     size_t i;
 
@@ -260,7 +261,7 @@ static matrix_t *matrix_add_scalar(matrix_t *a, double scalar)
  *  @return a, após a soma. 
  *  \warning A matriz retornada não é uma cópia de a. Caso deseje uma cópia, use matrix_copy em a antes.
  */
-static matrix_t *matrix_add_matrix(matrix_t *a, matrix_t *b)
+static matrix_t *matrix_add_matrix(matrix_t * restrict a, matrix_t * restrict b)
 {
     size_t i;
     
@@ -300,7 +301,7 @@ static matrix_t *matrix_subtract_scalar(matrix_t *a, double scalar)
  *  @return a, após a subtração. 
  *  \warning A matriz retornada não é uma cópia de a. Caso deseje uma cópia, use matrix_copy em a antes.
  */
-static matrix_t *matrix_subtract_matrix(matrix_t *a, matrix_t *b)
+static matrix_t *matrix_subtract_matrix(matrix_t * restrict a, matrix_t * restrict b)
 {
     size_t i;
     
@@ -339,7 +340,7 @@ static matrix_t *matrix_mul_scalar(matrix_t *a, double scalar)
  *  Multiplica a por b, guardando os resultados em uma nova matriz
  *  @return Uma nova matriz, com os resultados da multiplicação.
  */
-static matrix_t *matrix_mul_matrix(matrix_t *a, matrix_t *b)
+static matrix_t *matrix_mul_matrix(const matrix_t * restrict a, const matrix_t * restrict b)
 {
     matrix_t *result;
     size_t i;
@@ -366,7 +367,7 @@ static matrix_t *matrix_mul_matrix(matrix_t *a, matrix_t *b)
 /** 
  *  Encontra a submatriz de mat formada deletando a linha row e a coluna column
  */
-static matrix_t *matrix_get_submatrix(matrix_t *mat, size_t row, size_t column)
+static matrix_t *matrix_get_submatrix(const matrix_t *mat, size_t row, size_t column)
 {
     matrix_t *sub = matrix_new(mat->rows - 1, mat->columns - 1);
     size_t last_row = 0, last_column = 0;
@@ -399,7 +400,7 @@ static matrix_t *matrix_get_submatrix(matrix_t *mat, size_t row, size_t column)
  * Computa o determinante de mat via expansão de Laplace.
  * \warning Computacionalmente ineficiente, O(n!). Tome cuidado.
  */
-static double matrix_get_determinant(matrix_t *mat)
+static double matrix_get_determinant(const matrix_t *mat)
 {
     size_t  order = mat->rows,
             i;
@@ -429,7 +430,7 @@ static double matrix_get_determinant(matrix_t *mat)
 /**
  *  Imprime uma matriz.
  */
-static void matrix_pretty_print(matrix_t *mat)
+static void matrix_pretty_print(const matrix_t *mat)
 {
     size_t i;
     for (i = 0; i < mat->rows; ++i) {

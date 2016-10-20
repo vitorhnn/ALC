@@ -32,7 +32,7 @@
  *  Verifica se a matriz é do tipo Vandermonde
  *  @author Andrei Parente
  */
-static int vandermonde_check(matrix_t *mat)
+static int vandermonde_check(const matrix_t *mat)
 {
     size_t i;
     for (i = 0; i < mat->rows; ++i) {
@@ -57,7 +57,7 @@ static int vandermonde_check(matrix_t *mat)
  *  Calcula o determinante de mat, usando o processo simplificado para matrizes de Vandermonde
  *  @author Andrei Parente
  */
-static double vandermonde_determinant(matrix_t *mat)
+static double vandermonde_determinant(const matrix_t *mat)
 {
     double determinant = 1;
 

@@ -45,7 +45,7 @@ static size_t get_iterations(void)
  *  Confere o critério das linhas em mat
  *  @author Andrei Parente
  */
-static int convergence_rows_check(matrix_t *mat)
+static int convergence_rows_check(const matrix_t *mat)
 {
     size_t i;
     for (i = 0; i < mat->rows; ++i) {
@@ -73,7 +73,7 @@ static int convergence_rows_check(matrix_t *mat)
  *  Confere o critério das colunas em mat
  *  @author Andrei Parente
  */
-static int convergence_columns_check(matrix_t *mat)
+static int convergence_columns_check(const matrix_t *mat)
 {
     size_t j;
     for (j = 0; j < mat->columns; ++j) {
@@ -102,7 +102,7 @@ static int convergence_columns_check(matrix_t *mat)
  *  Confere o critério de Sassenfeld em mat
  *  @author Andrei Parente
  */
-static int convergence_sassenfeld_check(matrix_t *mat)
+static int convergence_sassenfeld_check(const matrix_t *mat)
 {
     double *beta = malloc(sizeof(double) * mat->rows);
 
@@ -148,7 +148,7 @@ static int convergence_sassenfeld_check(matrix_t *mat)
  *  Confere o critério das normas em mat
  *  @author Andrei Parente
  */
-static int convergence_norms_check(matrix_t *mat)
+static int convergence_norms_check(const matrix_t *mat)
 {
     if (row_norm(mat) < 1) {
         return 1;
@@ -169,7 +169,7 @@ static int convergence_norms_check(matrix_t *mat)
  *  Confere todos os critérios de convergência em mat
  *  @author Andrei Parente
  */
-static int convergence_check_all(matrix_t *mat)
+static int convergence_check_all(const matrix_t *mat)
 {
     if (convergence_rows_check(mat) == 1 || 
         convergence_columns_check(mat) == 1 || 
@@ -187,7 +187,7 @@ static int convergence_check_all(matrix_t *mat)
  *  @return O vetor x.
  *  @author Andrei Parente
  */
-static matrix_t *jacobi_solve(matrix_t *A, matrix_t* b, double absolute_error)
+static matrix_t *jacobi_solve(const matrix_t * restrict A, const matrix_t * restrict b, double absolute_error)
 {
     matrix_t *x1 = matrix_new(b->rows, 1);
 
@@ -230,7 +230,7 @@ static matrix_t *jacobi_solve(matrix_t *A, matrix_t* b, double absolute_error)
  *  Resolve o sistema Ax = b pelo método iterativo de Sobre-Relaxação Sucessiva.
  *  @return O vetor x.
  */
-static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_error)
+static matrix_t *sor_solve(const matrix_t * restrict A, const matrix_t * restrict b, double w, double absolute_error)
 {
     matrix_t *x = matrix_new(b->rows, 1);
     size_t done = 0;
@@ -277,7 +277,7 @@ static matrix_t *sor_solve(matrix_t *A, matrix_t *b, double w, double absolute_e
  *  @return O vetor x.
  *  @author Márcio Medeiros
  */
-static matrix_t *gauss_seidel_solve(matrix_t *A, matrix_t *b, double absolute_error)
+static matrix_t *gauss_seidel_solve(const matrix_t * restrict A, const matrix_t * restrict b, double absolute_error)
 {
     return sor_solve(A, b, 1, absolute_error);
 }

@@ -33,7 +33,7 @@
 /**
  *  Calcula uma aproximação do numero condição de uma matriz A de ordem qualquer
  */
-static double condest(matrix_t *A, unsigned tests)
+static double condest(const matrix_t *A, unsigned tests)
 {
     double cond;
     matrix_t *x, *b;

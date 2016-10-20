@@ -27,12 +27,13 @@
 #define MATRIX_ANGLE_OPS_H
 
 #include "matrix.h"
+#include "matrix_norms.h"
 
 /**
  *  Calcula o produto interno entre a linha row e a coluna column de mat
  *  @author Andrei Parente
  */
-static double row_column_dot_product(matrix_t *mat, size_t row, size_t column)
+static double row_column_dot_product(const matrix_t *mat, size_t row, size_t column)
 {
     double product = 0;
     size_t i;
@@ -48,7 +49,7 @@ static double row_column_dot_product(matrix_t *mat, size_t row, size_t column)
 /**
  *  Calcula a magnitude do vetor vector
  */
-static double vector_length(matrix_t *vector)
+static double vector_length(const matrix_t *vector)
 {
     size_t i;
     double accumulator = 0;
@@ -66,7 +67,7 @@ static double vector_length(matrix_t *vector)
  *  Calcula o ângulo entre a linha row e a coluna column de mat
  *  @author Andrei Parente
  */
-static double row_column_angle(matrix_t *mat, size_t row, size_t column)
+static double row_column_angle(const matrix_t *mat, size_t row, size_t column)
 {
     size_t i;
     double row_length = 0,
@@ -100,7 +101,7 @@ static double row_column_angle(matrix_t *mat, size_t row, size_t column)
  *
  *  @author Pedro da Luz
  */
-static double vector_distance_vector(matrix_t* u, matrix_t* v)
+static double vector_distance_vector(const matrix_t * restrict u, const matrix_t * restrict v)
 {
     double accumulator;
 
@@ -124,7 +125,7 @@ static double vector_distance_vector(matrix_t* u, matrix_t* v)
  *
  *  @author Pedro da Luz
  */
-static double vector_angle_vector(matrix_t* u, matrix_t* v)
+static double vector_angle_vector(const matrix_t * restrict u, const matrix_t * restrict v)
 {
     double angle;
 
@@ -153,7 +154,7 @@ static double vector_angle_vector(matrix_t* u, matrix_t* v)
  *
  *  @author Pedro da Luz
  */
-static double vector_innerProductSpace(matrix_t* u, matrix_t* v)
+static double vector_innerProductSpace(const matrix_t * restrict u, const matrix_t * restrict v)
 {
     double innner_product_space;
 

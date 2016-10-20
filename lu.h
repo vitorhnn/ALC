@@ -32,7 +32,7 @@
 /**
  *  Decompõe a matriz A em L, triangular inferior, e U, triangular superior.
  */
-static void lu_decompose(matrix_t *A, matrix_t **L, matrix_t **U)
+static void lu_decompose(const matrix_t * restrict A, matrix_t ** restrict L, matrix_t ** restrict U)
 {
     /* doolittle reduction. */
     /* using the variables from watkin's book because this is confusing */
@@ -71,7 +71,7 @@ static void lu_decompose(matrix_t *A, matrix_t **L, matrix_t **U)
  *  Resolve o sistema Ax = b por decomposição LU
  *  @return O vetor x.
  */
-static matrix_t *lu_solve(matrix_t *A, matrix_t *b)
+static matrix_t *lu_solve(const matrix_t * restrict A, const matrix_t * restrict b)
 {
     matrix_t *l, *u;
     lu_decompose(A, &l, &u);

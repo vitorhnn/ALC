@@ -32,7 +32,7 @@
  *  Calcula a norma de frobenius de mat
  *  @author Andrei Parente
  */
-static double frobenius_norm(matrix_t *mat)
+static double frobenius_norm(const matrix_t *mat)
 {
     double norm = 0;
 
@@ -51,7 +51,7 @@ static double frobenius_norm(matrix_t *mat)
  *  Calcula a norma linha de mat
  *  @author Andrei Parente
  */
-static double row_norm(matrix_t *mat)
+static double row_norm(const matrix_t *mat)
 {
     double sum = 0,
            norm = 0;
@@ -81,7 +81,7 @@ static double row_norm(matrix_t *mat)
  *  Calcula a norma coluna de mat
  *  @author Andrei Parente
  */
-static double column_norm(matrix_t *mat)
+static double column_norm(const matrix_t *mat)
 {
     double sum = 0,
            norm = 0;
@@ -116,7 +116,7 @@ static double column_norm(matrix_t *mat)
  *
  *  @author Pedro da Luz
  */
-static double vector_norm1(matrix_t* vector)
+static double vector_norm1(const matrix_t* vector)
 {
     double accumulator = 0;
 
@@ -141,7 +141,7 @@ static double vector_norm1(matrix_t* vector)
  *
  *  @author Pedro da Luz
  */
-static double vector_norm2(matrix_t* vector)
+static double vector_norm2(const matrix_t* vector)
 {
     double accumulator = 0;
 
@@ -166,7 +166,7 @@ static double vector_norm2(matrix_t* vector)
  *
  *  @author Pedro da Luz
  */
-static double vector_infinityNorm(matrix_t* vector)
+static double vector_infinityNorm(const matrix_t* vector)
 {
     double max = 0;
 

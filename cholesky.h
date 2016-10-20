@@ -27,12 +27,13 @@
 #define CHOLESKY_H
 
 #include "matrix.h"
+#include "basic.h"
 
 /**
  *  Calcula o fator de Cholesky da matriz mat
  *  @return O fator de Cholesky de mat se esta é positiva definida, NULL caso contrário
  */
-static matrix_t *cholesky_factor(matrix_t *mat)
+static matrix_t *cholesky_factor(const matrix_t *mat)
 {
     matrix_t *factor = matrix_new(mat->rows, mat->columns);
 
@@ -78,7 +79,7 @@ static matrix_t *cholesky_factor(matrix_t *mat)
  *  Resolve o sistema Ax = b por fatoração de Cholesky
  *  @return O vetor x caso seja possível aplicar fatoração de Cholesky, NULL caso contrário.
  */
-static matrix_t *cholesky_solve(matrix_t *A, matrix_t *b)
+static matrix_t *cholesky_solve(const matrix_t * restrict A, const matrix_t * restrict b)
 {
     matrix_t *factor = cholesky_factor(A);
 
