@@ -261,7 +261,7 @@ static matrix_t *matrix_add_scalar(matrix_t *a, double scalar)
  *  @return a, após a soma. 
  *  \warning A matriz retornada não é uma cópia de a. Caso deseje uma cópia, use matrix_copy em a antes.
  */
-static matrix_t *matrix_add_matrix(matrix_t * restrict a, matrix_t * restrict b)
+static matrix_t *matrix_add_matrix(matrix_t *a, const matrix_t *b)
 {
     size_t i;
     
@@ -301,7 +301,7 @@ static matrix_t *matrix_subtract_scalar(matrix_t *a, double scalar)
  *  @return a, após a subtração. 
  *  \warning A matriz retornada não é uma cópia de a. Caso deseje uma cópia, use matrix_copy em a antes.
  */
-static matrix_t *matrix_subtract_matrix(matrix_t * restrict a, matrix_t * restrict b)
+static matrix_t *matrix_subtract_matrix(matrix_t *a, const matrix_t *b)
 {
     size_t i;
     
@@ -340,7 +340,7 @@ static matrix_t *matrix_mul_scalar(matrix_t *a, double scalar)
  *  Multiplica a por b, guardando os resultados em uma nova matriz
  *  @return Uma nova matriz, com os resultados da multiplicação.
  */
-static matrix_t *matrix_mul_matrix(const matrix_t * restrict a, const matrix_t * restrict b)
+static matrix_t *matrix_mul_matrix(const matrix_t *a, const matrix_t *b)
 {
     matrix_t *result;
     size_t i;
